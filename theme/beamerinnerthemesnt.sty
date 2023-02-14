@@ -1,0 +1,76 @@
+\defbeamertemplate*{section page}{snt}{
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=west, text width=\pagewidth-4ex-6mm, inner sep=2ex, line width=0pt, minimum height=32pt]
+      (sectionbox) at ([xshift=6mm] current page.west) {
+      \raggedright
+      \usebeamercolor[fg]{section number}
+      \usebeamerfont{section number}
+      \insertsectionnumber.\\[1ex]
+      \usebeamercolor[fg]{section title}
+      \usebeamerfont{section title}
+      \insertsectionhead
+    };
+    \usebeamercolor{snt side bar}
+    \path[fill=fg] (current page.west |- sectionbox.north) rectangle ([xshift=3mm] current page.west |- sectionbox.south);
+  \end{tikzpicture}
+  \par
+}
+
+\defbeamertemplate*{subsection page}{snt}{
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=west, text width=\pagewidth-4ex-6mm, inner sep=2ex, line width=0pt, minimum height=32pt]
+      (sectionbox) at ([xshift=6mm] current page.west) {
+      \raggedright
+      {\usebeamercolor[fg]{section number}
+      \usebeamerfont{section number}
+      \insertsectionnumber.}{\usebeamercolor[fg]{section title}\usebeamerfont{section number}\insertsubsectionnumber.\\[1ex]}
+      \usebeamercolor[fg]{section title}
+      \usebeamerfont{section title}
+      \insertsectionhead\\[.5ex]
+      \Large\insertsubsectionhead
+    };
+    \usebeamercolor{snt side bar}
+    \path[fill=fg] (current page.west |- sectionbox.north) rectangle ([xshift=3mm] current page.west |- sectionbox.south);
+  \end{tikzpicture}
+  \par
+}
+
+\AtBeginSection{
+  \ifbeamer@inframe
+    \sectionpage
+  \else
+    \frame[plain,noframenumbering]{\sectionpage}
+  \fi
+}
+
+\AtBeginSubsection{
+  \ifbeamer@inframe
+    \subsectionpage
+  \else
+    \frame[plain,noframenumbering]{\subsectionpage}
+  \fi
+}
+
+\defbeamertemplate*{title page}{snt}[1][]
+{ 
+  \begin{tikzpicture}[remember picture, overlay]
+  \node[anchor=west, text width=\pagewidth-4ex-3mm, fill=black, fill opacity=0.5, text opacity=1, inner sep=2ex,line width=0pt]
+    (titlebox) at ([xshift=3mm] current page.west) {
+    \begin{beamercolorbox}[wd=\linewidth,#1]{title page header}
+      \usebeamerfont{title}\inserttitle\par%
+    \end{beamercolorbox}
+    \vskip1ex%
+    \begin{beamercolorbox}[wd=\linewidth,#1]{author}
+      \usebeamerfont{author}\insertauthor\par%
+    \end{beamercolorbox}
+    \vskip0.5ex%
+    \begin{beamercolorbox}[wd=\linewidth,#1]{date}
+      \usebeamerfont{date}\insertdate%
+    \end{beamercolorbox}};
+    \usebeamercolor{snt side bar}
+    \path[fill=fg] (current page.west |- titlebox.north) rectangle ([xshift=3mm] current page.west |- titlebox.south);
+  \end{tikzpicture}
+}
+
+\setbeamertemplate{itemize items}{\textbullet}
+\setlength{\parskip}{0.5ex}

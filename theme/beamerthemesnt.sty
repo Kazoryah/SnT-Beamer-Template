@@ -1,0 +1,22 @@
+\RequirePackage{tikz}
+
+\useinnertheme{snt}
+\useoutertheme{snt}
+\usecolortheme{snt}
+\usefonttheme{snt}
+
+\newif\ifsntwhitelogos
+\sntwhitelogosfalse
+
+\def\unilulogo#1{\includegraphics[#1]{media/unilu.pdf}}
+\def\sntlogo#1{\includegraphics[#1]{media/snt.png}}
+\def\unilulogoW#1{\includegraphics[#1]{media/uniluW.pdf}}
+\def\sntlogoW#1{\includegraphics[#1]{media/sntW.png}}
+\def\sntlogoG#1{\includegraphics[#1]{media/sntG.png}}
+\def\unilulogoCW#1{\ifsntwhitelogos\unilulogoW{#1}\else\unilulogo{#1}\fi}
+\def\sntlogoCW#1{\ifsntwhitelogos\sntlogoW{#1}\else\sntlogo{#1}\fi}
+
+% put this into \logo{}
+\def\useunilu{\unilulogoCW{height=1cm}}
+\def\usesnt{\sntlogoCW{height=1cm}}
+\def\useboth{\unilulogoCW{height=1cm}\hskip 3mm\bgroup\ifsntwhitelogos\color{white}\fi\rule{0.25pt}{1cm}\egroup\hskip 3mm\sntlogoCW{height=1cm}}

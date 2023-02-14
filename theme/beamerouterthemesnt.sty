@@ -1,0 +1,125 @@
+
+\def\snt@brain{brain}
+\def\snt@microscope{microscope}
+\def\snt@servers{servers}
+\def\snt@bghand{bghand}
+\def\snt@bghead{bghead}
+\def\snt@bgdefault{bgdefault}
+\def\snt@watermark{watermark}
+\def\snt@iwatermark{iwatermark}
+\def\snt@black{black}
+\def\snt@white{white}
+
+\def\snt@background{} %TODO convert this to pgfkeys
+\def\setsntbackground#1{\def\snt@background{#1}}
+\def\snttitlepage#1{\begingroup\sntwhitelogostrue\setsntbackground{#1}\frame[noframenumbering]{\titlepage}\endgroup}
+
+\define@key{beamerframe}{c}[true]{% centered
+  \beamer@frametopskip=0pt plus 1fill\relax%
+  \beamer@framebottomskip=0pt plus 1fill\relax%
+  \beamer@frametopskipautobreak=0pt plus .4\paperheight\relax%
+  \beamer@framebottomskipautobreak=0pt plus .6\paperheight\relax%
+  \def\beamer@initfirstlineunskip{}%
+}
+
+\providebool{snt@standout}
+
+\define@key{beamerframe}{standout}[true]{%
+  \booltrue{snt@standout}
+  \begingroup
+  \sntwhitelogostrue
+  \setbeamercolor*{titlelike}{use=standout, fg=standout.fg}
+  \setbeamercolor*{structure}{use=standout, fg=standout.fg}
+  \setkeys{beamerframe}{c}
+  \setkeys{beamerframe}{noframenumbering}
+  \centering
+  \usebeamercolor[fg]{standout}
+  \usebeamerfont{standout}
+}
+
+\apptocmd{\beamer@reseteecodes}{%
+  \ifbool{snt@standout}{
+    \endgroup
+    \boolfalse{snt@standout}
+  }{}
+}{}{}
+
+\setbeamertemplate{background}{
+  \begin{tikzpicture}
+  \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+  \ifbool{snt@standout}{
+    \usebeamercolor{standout}
+    \fill[color=bg] (0,0) rectangle (\the\paperwidth,\the\paperheight);
+  }{%
+  \ifx\snt@background\snt@bgdefault
+    \node[inner sep=0pt] at (current page.center) {\includegraphics[width=\paperwidth]{media/bg-default.jpg}};
+  \else\ifx\snt@background\snt@bghand
+    \node[inner sep=0pt] at (current page.center) {\includegraphics[width=\paperwidth]{media/bg-hand.jpg}};
+  \else\ifx\snt@background\snt@bghead
+    \node[inner sep=0pt] at (current page.center) {\includegraphics[width=\paperwidth]{media/bg-head.png}};
+  \else\ifx\snt@background\snt@watermark
+    \fill[color=white] (0,0) rectangle (\the\paperwidth,\the\paperheight);
+    \node[rotate=15] at(0.3\paperwidth, 0.4\paperheight) {\sntlogoG{height=\paperheight}};
+  \else\ifx\snt@background\snt@iwatermark
+    \usebeamercolor{normal text}
+    \fill[color=bg] (0,0) rectangle (\the\paperwidth,\the\paperheight);
+    \node[rotate=15] at(0.3\paperwidth, 0.4\paperheight) {\sntlogoW{height=\paperheight}};
+  \else\ifx\snt@background\snt@white
+    \path[fill=white] (0,0) rectangle (\the\paperwidth,\the\paperheight);
+  \else\ifx\snt@background\snt@black
+    \path[fill=black] (0,0) rectangle (\the\paperwidth,\the\paperheight);
+  \else
+    \usebeamercolor{normal text}
+    \fill[color=bg] (0,0) rectangle (\the\paperwidth,\the\paperheight);
+  \fi\fi\fi\fi\fi\fi\fi}
+  \end{tikzpicture}
+}
+
+\defbeamertemplate*{frametitle}{snt}[1][]
+{\vskip3mm%
+  \begin{beamercolorbox}[wd=\paperwidth,sep=0pt]{frametitle}%
+  \begin{tikzpicture}
+  \node[anchor=north west, text width=\paperwidth-12mm, minimum height=24pt] (thetitle) at (6mm,0) {
+    \insertframetitle
+    \ifx\insertframesubtitle\@empty\else\par\begingroup%
+      \usebeamercolor[fg]{framesubtitle}\usebeamerfont{framesubtitle}\par%
+      \insertframesubtitle%
+    \endgroup\fi
+  };
+  \ifsnt@standout
+    \path (0,0);%alignment dummy
+  \else
+    \usebeamercolor{snt side bar}
+    \path[fill=fg] (0,0) rectangle ([xshift=-3mm] thetitle.south west);
+  \fi
+  \end{tikzpicture}\nolinebreak\end{beamercolorbox}\vskip -2ex%TODO a saner way?
+}
+
+% eliminate the sidebar; logos will go to footer
+\defbeamertemplate*{sidebar right}{snt}{}
+\defbeamertemplate*{navigation symbols}{snt}{}
+
+% footerwork
+\defbeamertemplate*{footline}{snt}{%
+  \ifbeamer@noframenumbering\else%
+  \begin{beamercolorbox}[wd=\textwidth, sep=3mm]{footer}%
+    \usebeamerfont{footer}%
+    \usebeamertemplate{footer}%
+  \end{beamercolorbox}\fi
+  \tikz[overlay]\node[inner sep=3mm, anchor=south east] at (current page.south east) {\insertlogo};}
+
+\defbeamertemplate{footer}{empty}{}
+\defbeamertemplate*{footer}{snt}{\parbox{4em}{\usebeamertemplate{frame numbering}}\usebeamertemplate{footer text}}
+\defbeamertemplate{footer}{textonly}{\usebeamertemplate{footer text}}
+
+\defbeamertemplate*{footer text}{none}{}
+\defbeamertemplate{footer text}{authortitle}{\insertauthor\quad\inserttitle}
+\defbeamertemplate{footer text}{titledate}{\inserttitle\quad\insertdate}
+
+\defbeamertemplate*{frame numbering}{snt}{\bgroup%
+  \usebeamercolor[fg]{page number in head/foot}%
+  \usebeamerfont{page number in head/foot}%
+  \insertframenumber%
+  \usebeamerfont{page count in head/foot}%
+  /\inserttotalframenumber%
+  \egroup}

@@ -1,0 +1,26 @@
+\mode<presentation>
+
+\definecolor{luxembourg blue}{HTML}{00a4dd}
+\definecolor{luxembourg red}{HTML}{e31b1d}
+\definecolor{snt headers}{HTML}{5c5c5c}
+\definecolor{snt text}{HTML}{333333}
+\def\setsntRedOnBlue{\setbeamercolor*{snt base}{fg=luxembourg red, bg=luxembourg blue}}
+\def\setsntBlueOnRed{\setbeamercolor*{snt base}{fg=luxembourg blue, bg=luxembourg red}}
+\setsntRedOnBlue
+
+\setbeamercolor*{title page header}{fg=white}
+\setbeamercolor*{author}{fg=white}
+\setbeamercolor*{date}{fg=white}
+\setbeamercolor*{normal text}{fg=snt text, bg=black!3}
+\setbeamercolor*{alerted text}{fg=orange!80!red!80}
+\setbeamercolor*{example text}{fg=yellow!20!green}
+\setbeamercolor*{titlelike}{fg=snt headers}
+\setbeamercolor*{structure}{use=snt base, fg=snt base.fg}
+\setbeamercolor*{snt side bar}{use=snt base, fg=snt base.bg}
+\setbeamercolor*{logo}{fg=snt headers}
+\setbeamercolor*{standout}{use=snt base, fg=white, bg=snt base.bg}
+\setbeamercolor*{section number}{use=snt base, fg=snt base.fg}
+\setbeamercolor*{page number in head/foot}{use=snt base, fg=snt base.bg}
+\setbeamercolor*{footer}{use=snt base, fg=snt base.bg}
+
+\mode<all>
