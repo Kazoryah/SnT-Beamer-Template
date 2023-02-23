@@ -2,6 +2,7 @@
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{appendixnumberbeamer}
+\usepackage{xcolor}
 
 %https://git-r3lab.uni.lu/R3/outreach/templates/presentations/latex
 %https://wwwfr.uni.lu/snt/about_us/snt_presentation2
@@ -11,6 +12,7 @@
 
 % load the theme :]
 \usetheme{snt}
+\usefonttheme[onlymath]{serif}
 
 % the default font theme is snt-fira, you may also try one of:
 %\usefonttheme{snt-ibmplex} % IBM technical script
@@ -52,6 +54,12 @@
   \endgroup
 }
 
+\definecolor{sntred}{rgb}{0.89, 0.14, 0.1}
+\definecolor{sntpurple}{rgb}{0.33, 0.14, 0.48}
+\definecolor{sntblue}{rgb}{0.06, 0.59, 0.81}
+
+\newcommand\forward[1]{\textcolor{sntpurple}{{\textbf{\textit{#1}}}}}
+\newcommand\redalert[1]{\textcolor{sntred}{#1}}
 
 \begin{document}
 
@@ -96,7 +104,7 @@
     \item Tiny
     \item Small
     \item \alert<2>{???}
-    \item Too big
+    \item \redalert{Too big}
     \item Plain Bulky
   \end{itemize}
 \end{column}
@@ -145,7 +153,7 @@
 
 \begin{frame}{Font check slide}
 \begin{itemize}
-\item This could make ligatures: hifi fifi gaffa
+\item \forward{This} could make ligatures: hifi fifi gaffa
 \item this should \underline{not}: \texttt{hifi fifi gaffa}
 \item \emph{this should be emphasised}
 \item \textbf{bold\emph{emph}} \texttt{mono\textbf{bold\emph{emph}}\emph{emph}}
