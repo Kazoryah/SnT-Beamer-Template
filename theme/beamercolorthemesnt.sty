@@ -4,6 +4,7 @@
 \definecolor{luxembourg red}{HTML}{e31b1d}
 \definecolor{snt headers}{HTML}{5c5c5c}
 \definecolor{snt text}{HTML}{333333}
+\definecolor{sntgray}{HTML}{58585a}
 \def\setsntRedOnBlue{\setbeamercolor*{snt base}{fg=luxembourg red, bg=luxembourg blue}}
 \def\setsntBlueOnRed{\setbeamercolor*{snt base}{fg=luxembourg blue, bg=luxembourg red}}
 \setsntRedOnBlue
@@ -22,5 +23,7 @@
 \setbeamercolor*{section number}{use=snt base, fg=snt base.fg}
 \setbeamercolor*{page number in head/foot}{use=snt base, fg=snt base.bg}
 \setbeamercolor*{footer}{use=snt base, fg=snt base.bg}
+\setbeamercolor{block body}{bg=sntgray!20}
+\setbeamercolor{block title}{fg=sntgray, bg=sntgray!10}
 
 \mode<all>
