@@ -3,6 +3,8 @@
 \usepackage{graphicx}
 \usepackage{appendixnumberbeamer}
 \usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{trees}	% this is to allow the fork right path
 
 %https://git-r3lab.uni.lu/R3/outreach/templates/presentations/latex
 %https://wwwfr.uni.lu/snt/about_us/snt_presentation2
@@ -137,6 +139,97 @@
     \end{block}
     
 \end{frame}
+
+
+\begin{frame}{Tree Example}
+\vspace{1em}
+\hspace*{-2.2em}
+\begin{tikzpicture}
+    \tikzset{
+        thick/.style={
+            line width=0.8pt
+        },
+        grow=down, sibling distance=7em,
+        every node/.style={
+            draw,
+            rounded corners=.2em,
+            minimum width=20mm,
+            text width=18mm,
+            align=center,
+            font={\scriptsize\bfseries},
+            thick,
+        },
+        sub/.style={
+            anchor=west,
+            grow=down,
+            edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)},
+            xshift=1em,
+            draw=sntblue
+        },
+        subnode/.style={
+            font={\tiny},
+        },
+        every child/.style={
+            draw=sntblue
+        },
+        hide/.style={
+            opacity=0.2,
+        }
+    }
+    
+    \coordinate
+        node[style={font=\large\bfseries, text width=60mm, draw=sntblue}]{Anomaly Detection Techniques}
+            [edge from parent fork down]
+            child {node{Classification Based}
+                child[sub, level distance=4em] {node[subnode]{Neural Networks-Based}}
+                child[sub, level distance=6em] {node[subnode]{Bayesian Networks-Based}}
+                child[sub, level distance=8em] {node[subnode]{Support Vector Machines-Based}}
+                child[sub, level distance=9.7em, hide] {node[subnode]{Rule-Based}}
+            }
+            child {node{Nearest Neighbor-Based}
+                child[sub, level distance=4em] {node[subnode]{Using Distance to $k$\textsuperscript{th} Nearest Neighbor}}
+                child[sub, level distance=6.5em] {node[subnode]{Using Relative Density}}
+            }
+            child {node{Clustering-Based}}
+            child {node{Statistical}
+                child[sub, level distance=4em] {node[subnode]{Parametric}
+                    child[sub, dashed, level distance=1.6em, hide] {node[subnode, text width=30mm]{Gaussian Model-Based}}
+                    child[sub, dashed, level distance=3.2em] {node[subnode, text width=30mm]{Regression Model-Based}}
+                    child[sub, dashed, level distance=5em] {node[subnode, text width=30mm]{Mixture of Parametric\\ Distributions-Based}}
+                }
+                child[sub, level distance=11em, hide] {node[subnode]{Nonparametric}}
+            }
+            child[hide] {node{Information Theoretic}}
+            child[hide] {node{Spectral}};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Tree Example (bis)}
+    \centering
+    \begin{tikzpicture}
+        \tikzset{
+            every node/.style={
+                align=center,
+                text centered,
+                anchor=north,
+            }
+        }
+        \node[left] (a) at (0, 0) {\Large $x$};
+        \draw[->, thick] (a) -- ++(10em, 0)
+            node[above, pos=0.5, yshift=-.2em]{\textit{Compression}}
+            node(b)[right]{\Large $y_x$};    
+        \draw[->, thick] (b) -- ++(10em, 0)
+            node[above, pos=0.5]{\textit{Reconstruction}}
+            node(c)[right]{\Large \raisebox{.3em}{$\hat{x}$}};
+        \draw[rounded corners] ([yshift=-.2em]a.south west) rectangle ([yshift=.5em]c.north east);
+
+        \node(d)[right] at ([xshift=2em, yshift=.3em]c) {\raisebox{1.5em}{\textit{Anomaly Score}}\\[-1.3em] $\delta(x, \hat{x})$};
+        \draw[rounded corners] ([yshift=-.0em]d.south west) rectangle ([yshift=.2em]d.north east);
+
+        \draw[densely dashed] ([yshift=.3em]c.east) -- (d.west);
+    \end{tikzpicture}
+\end{frame}
+
 
 \section{Second part}
 \subsection{This is a subsection}
