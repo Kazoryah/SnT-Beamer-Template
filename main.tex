@@ -1,5 +1,5 @@
 \documentclass[aspectratio=169]{beamer}
-\usepackage{natbib}
+\usepackage[backend=biber]{biblatex}
 \usepackage{graphicx}
 \usepackage{appendixnumberbeamer}
 \usepackage{xcolor}
@@ -32,14 +32,20 @@
 \date{BioCore team meeting, Month $X$\textsuperscript{th}, 2021}
 
 % Put the references list on the page following the reference titlepage
-\let\oldthebibliography\thebibliography
-\let\endoldthebibliography\endthebibliography
-\renewenvironment{thebibliography}[1]{
-  \begin{oldthebibliography}{#1}
-    \newpage
+\AtBeginBibliography{\newpage}
+
+% Add citation styles
+\DeclareFieldFormat[article, inproceedings]{citetitle}{#1}
+\newcommand\citet[1]{%
+    \textbf{\textit{\citetitle{#1}}}~{\color{snt purple}(\citeauthor{#1},~\citeyear{#1}~\cite{#1})}%
 }
-{
-  \end{oldthebibliography}
+\newcommand{\citea}[1]{%
+    {\color{snt purple}%
+    \citeauthor{#1}~(\citeyear{#1})~\cite{#1}}%
+}
+\newcommand{\citep}[1]{%
+    {\color{snt purple}%
+    (\citeauthor{#1},~\citeyear{#1}~\cite{#1})}%
 }
 
 % various visual details
@@ -56,13 +62,12 @@
   \endgroup
 }
 
-\definecolor{sntred}{rgb}{0.89, 0.14, 0.1}
-\definecolor{sntpurple}{rgb}{0.33, 0.14, 0.48}
-\definecolor{sntblue}{rgb}{0.06, 0.59, 0.81}
+\newcommand\forward[1]{\textcolor{snt purple}{{\textbf{\textit{#1}}}}}
+\newcommand\redalert[1]{\textcolor{snt red}{#1}}
 
-\newcommand\forward[1]{\textcolor{sntpurple}{{\textbf{\textit{#1}}}}}
-\newcommand\redalert[1]{\textcolor{sntred}{#1}}
+\addbibresource{bib.bib}
 
+\setbeamerfont{bibliography entry author}{size=\tiny, series=\bfseries}
 \begin{document}
 
 \snttitlepage{bgdefault} %or brain, or microscope
@@ -164,13 +169,13 @@
             grow=down,
             edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)},
             xshift=1em,
-            draw=sntblue
+            draw=snt blue
         },
         subnode/.style={
             font={\tiny},
         },
         every child/.style={
-            draw=sntblue
+            draw=snt blue
         },
         hide/.style={
             opacity=0.2,
@@ -178,7 +183,7 @@
     }
     
     \coordinate
-        node[style={font=\large\bfseries, text width=60mm, draw=sntblue}]{Anomaly Detection Techniques}
+        node[style={font=\large\bfseries, text width=60mm, draw=snt blue}]{Anomaly Detection Techniques}
             [edge from parent fork down]
             child {node{Classification Based}
                 child[sub, level distance=4em] {node[subnode]{Neural Networks-Based}}
@@ -278,8 +283,9 @@ You can cite \citep{Burt1983TheLP} like this
     \item Or like that
     \item \cite{Ma2018InfraredAV}
     \item \citet{Burt1983TheLP}
+    \item \citea{Burt1983TheLP}
 \end{itemize}
-\blfootnote{This is a "blank"-footnote}
+\blfootnote{This is a ``blank"-footnote}
 \end{frame}
 
 \begin{frame}[standout]
@@ -338,8 +344,7 @@ Stand-out frames!
 % \setbeamertemplate{footer}[snt] % reset footer
 
 \begin{frame}[allowframebreaks]
-    \bibliographystyle{apalike}
-    \bibliography{bib.bib}
+    \printbibliography
 \end{frame}
 
 
