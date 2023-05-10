@@ -47,6 +47,11 @@
     {\color{snt purple}%
     (\citeauthor{#1},~\citeyear{#1}~\cite{#1})}%
 }
+\newcommand\citef[1]{%
+    \cite{#1}%
+    \blfootnote{\cite{#1}~\citeauthor{#1},~\citeyear{#1},%
+    ~\textbf{\textit{\citetitle{#1}}}}%
+}
 
 % various visual details
 \logo{\useboth} %or just \useunilu or \usesnt, or use \includegraphics{...}
@@ -56,8 +61,13 @@
 
 % allow a footnote without any citation number in the slide text
 \newcommand\blfootnote[1]{%
-  \begingroup
-  \renewcommand\thefootnote{}\footnote{#1}%
+  \begingroup%
+  \renewcommand\thefootnote{}\footnote{%
+  % limit footnote width not to go over the univerisity logo
+  \begin{minipage}{.78\linewidth}%
+  #1%
+  \end{minipage}\\[0em]\vspace{-.8em}%
+  }%
   \addtocounter{footnote}{-1}%
   \endgroup
 }
@@ -275,17 +285,18 @@
 
 \[ \sum_{i\in\{1\dots 10\}} i = 55 \]
 \end{itemize}
+\blfootnote{This is a ``blank"-footnote}
 \end{frame}
 
 \begin{frame}{Citations}
 You can cite \citep{Burt1983TheLP} like this
 \begin{itemize}
-    \item Or like that
-    \item \cite{Ma2018InfraredAV}
+    \item Or like that \cite{Ma2018InfraredAV} with clickable number
     \item \citet{Burt1983TheLP}
     \item \citea{Burt1983TheLP}
+    \item Or at the bottom \citef{Ma2018InfraredAV}
+    \item Or at the bottom (bis) \citef{Burt1983TheLP}
 \end{itemize}
-\blfootnote{This is a ``blank"-footnote}
 \end{frame}
 
 \begin{frame}[standout]
